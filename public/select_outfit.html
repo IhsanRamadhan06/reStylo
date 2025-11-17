@@ -214,9 +214,8 @@
     const container = document.getElementById(containerId);
     container.innerHTML = '';
 
-    // Get selected IDs from localStorage
-    const selectedTopId = localStorage.getItem('selected_top');
-    const selectedBottomId = localStorage.getItem('selected_bottom');
+    const storageTopId = localStorage.getItem('selected_top');
+    const storageBottomId = localStorage.getItem('selected_bottom');
     const fromFavourite = localStorage.getItem('from_favourite');
 
     items.forEach(item => {
@@ -226,14 +225,13 @@
       card.dataset.type = type;
       card.innerHTML = `<img src="${item.image_url}" alt="${item.name}" />`;
 
-      // Auto-select if from favourite
       if (fromFavourite === 'true') {
-        if (type === 'top' && item.id == selectedTopId) {
+        if (type === 'top' && item.id == storageTopId) {
           card.classList.add('selected');
           selectedTopId = item.id;
-        } else if (type === 'bottom' && item.id == selectedBottomId) {
+        } else if (type === 'bottom' && item.id == storageBottomId) {
           card.classList.add('selected');
-          selectedBottomId = item.id;
+          selectedBottomId = item.id; 
         }
       }
 
@@ -252,15 +250,6 @@
 
       container.appendChild(card);
     });
-
-    // Set global variables if auto-selected
-    if (fromFavourite === 'true') {
-      if (type === 'top' && selectedTopId) {
-        window.selectedTopId = selectedTopId;
-      } else if (type === 'bottom' && selectedBottomId) {
-        window.selectedBottomId = selectedBottomId;
-      }
-    }
   }
 
   document.getElementById('save-outfit-btn').addEventListener('click', () => {
